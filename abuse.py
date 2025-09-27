@@ -204,8 +204,8 @@ rcParams['font.family'] = 'AppleGothic'
 rcParams['axes.unicode_minus'] = False
 
 list_1 = pd.read_parquet('광고목록_전처리.parquet')
-part = pd.read_parquet("part.parquet", engine="pyarrow")
-point = pd.read_parquet("point.parquet", engine="pyarrow")
+part = pd.read_parquet("part.parquet")
+point = pd.read_parquet("point.parquet")
 
 # @st.cache_data
 # def load_data_part():
