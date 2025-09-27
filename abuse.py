@@ -225,17 +225,18 @@ list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = load_data_part()
 # point = load_data_point()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+def download_from_drive(file_id, filename):
+    if not os.path.exists(filename):
+        cmd = f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id={file_id}" -O {filename}'
+        os.system(cmd)
+    if not os.path.exists(filename):
+        raise FileNotFoundError(f"❌ 다운로드 실패: {filename}")
+    print(f"✅ {filename} 크기: {os.path.getsize(filename)/1024/1024:.2f}MB")
+    return pd.read_parquet(filename, engine="pyarrow")
 
-def load_data(file_id, filename):
-    url = f"https://drive.google.com/uc?id={file_id}"
-    output = os.path.join(BASE_DIR, filename)   # 절대경로 저장
-    if not os.path.exists(output):
-        gdown.download(url, output, quiet=False)
-    return pd.read_parquet(output, engine="pyarrow")
+part  = download_from_drive("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
+point = download_from_drive("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
-part  = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
-point = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
