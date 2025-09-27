@@ -207,23 +207,35 @@ rcParams['axes.unicode_minus'] = False
 # part = pd.read_parquet("part.parquet")
 # point = pd.read_parquet("point.parquet")
 
-# BASE_DIR 설정
 try:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 except NameError:
     BASE_DIR = os.getcwd()
 
-def load_data(filename):
-    file_path = os.path.join(BASE_DIR, filename)
-    if not os.path.exists(file_path):
+# 공통 다운로드 + 로드 함수 (Parquet용)
+@st.cache_data
+def load_data(file_id: str, filename: str) -> pd.DataFrame:
+    file_path = Path(BASE_DIR) / filename
+    if not file_path.exists():
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, str(file_path), quiet=False)
+    if not file_path.exists():
         raise FileNotFoundError(f"❌ 파일을 찾을 수 없음: {file_path}")
     print(f"✅ 불러오는 파일: {file_path}")
     return pd.read_parquet(file_path, engine="pyarrow")
 
-# 데이터 로드
-list_1 = load_data("광고목록_전처리.parquet")
-part   = load_data("part.parquet")
-point  = load_data("point.parquet")
+# CSV용 (이미 있는 코드 재사용)
+@st.cache_data(show_spinner=False)
+def _read_csv(path: str) -> pd.DataFrame:
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(path)
+    return pd.read_csv(p)
+
+# 예시: 데이터 로드
+list_1 = load_data("1DXrhmL95OLYJ6_EIpOnf4LmPb5pDvvO3", "광고목록_전처리.parquet")
+part   = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "광고참여_어뷰징.parquet")
+point  = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "광고적립_어뷰징.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
