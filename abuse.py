@@ -739,17 +739,17 @@ else:
 
     left_g, right_g = st.columns(2)
 
-    with left_g:
+        with left_g:
         daily_abuse = (filtered_2.groupby(filtered_2['regdate'].dt.date)['rwd_cost']
                        .sum().reset_index())
         daily_abuse.columns = ['date', 'reward_sum']
-        weekday_map = {0:"월", 1:"화", 2:"수", 3:"목", 4:"금", 5:"토", 6:"일"}
+        weekday_map = {0:"Monday", 1:"Turesday", 2:"Wednesday", 3:"Thursday", 4:"Friday", 5:"Saturday", 6:"Sunday"}
         daily_abuse['label'] = daily_abuse['date'].apply(lambda x: x.strftime("%m-%d") + f" ({weekday_map[x.weekday()]})")
 
         fig_line, ax1 = plt.subplots(figsize=(6,4))
         ax1.plot(daily_abuse['label'], daily_abuse['reward_sum'], marker='o')
-        ax1.set_title(f"{selected_risk} - {selected_week} 어뷰징 지급액", fontsize=12)
-        ax1.set_xlabel("날짜(요일)"); ax1.set_ylabel("지급액"); ax1.grid(True, linestyle="--", alpha=0.7)
+        ax1.set_title(f"{selected_risk} - {selected_week} Abuse Payout", fontsize=12)
+        ax1.set_xlabel("Day(Weekday)"); ax1.set_ylabel("Payout"); ax1.grid(True, linestyle="--", alpha=0.7)
         plt.xticks(rotation=45, ha="right")
         st.pyplot(fig_line)
 
@@ -760,7 +760,7 @@ else:
         heatmap_data = heatmap_df.groupby(['weekday','hour'])['rwd_cost'].sum().reset_index()
         total_sum = heatmap_data['rwd_cost'].sum() or 1
         heatmap_data['ratio'] = heatmap_data['rwd_cost'] / total_sum
-        pivot = heatmap_data.pivot(index='weekday', columns='hour', values='ratio').reindex(index=range(7), columns=range(24), fill_value=0)
+        pivot = heatmap_data.pivot(index='Weekday', columns='Hour', values='Fatio').reindex(index=range(7), columns=range(24), fill_value=0)
 
   # 👉 히트맵 "색깔만" 2번 코드의 라벤더 팔레트로 교체
         from matplotlib.colors import LinearSegmentedColormap
@@ -771,14 +771,14 @@ else:
 
         fig2, ax2 = plt.subplots(figsize=(6,4))
         sns.heatmap(
-            pivot, cmap=lav_cmap, ax=ax2, cbar_kws={'label': '비율'},
+            pivot, cmap=lav_cmap, ax=ax2, cbar_kws={'label': 'Ratio'},
             vmin=0, vmax=max(0.0001, float(pivot.values.max()))
         )
         ax2.set_yticks(range(7))
-        ax2.set_yticklabels(["일","월","화","수","목","금","토"], rotation=0)
-        ax2.set_title(f"{selected_risk} - {selected_week} 요일×시간대 지급액 비율", fontsize=12)
-        ax2.set_xlabel("시간대 (0~23시)")
-        ax2.set_ylabel("요일")
+        ax2.set_yticklabels(["Sunday","Monday","Turesday","Wednesday","Thursday","Friday","Saturday"], rotation=0)
+        ax2.set_title(f"{selected_risk} - {selected_week} Weekday x Hour Abuse Payout Ratio", fontsize=12)
+        ax2.set_xlabel("Hour (0–23)")
+        ax2.set_ylabel("Weekday")
         st.pyplot(fig2)
 
     st.markdown('<hr class="sep" />', unsafe_allow_html=True)
