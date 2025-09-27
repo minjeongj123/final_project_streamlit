@@ -203,9 +203,24 @@ st.markdown("""
 rcParams['font.family'] = 'AppleGothic'
 rcParams['axes.unicode_minus'] = False
 
-list_1 = pd.read_parquet('광고목록_전처리.parquet')
-part = pd.read_parquet("part.parquet")
-point = pd.read_parquet("point.parquet")
+# list_1 = pd.read_parquet('광고목록_전처리.parquet')
+# part = pd.read_parquet("part.parquet")
+# point = pd.read_parquet("point.parquet")
+
+# app.py가 있는 폴더 기준
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def load_data(filename):
+    file_path = os.path.join(BASE_DIR, filename)
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"❌ 파일을 찾을 수 없음: {file_path}")
+    print(f"✅ 불러오는 파일: {file_path}")
+    return pd.read_parquet(file_path, engine="pyarrow")
+
+# 데이터 로드
+list_1 = load_data("광고목록_전처리.parquet")
+part   = load_data("광고참여_전처리.parquet")
+point  = load_data("광고적립_전처리.parquet")
 
 # @st.cache_data
 # def load_data_part():
