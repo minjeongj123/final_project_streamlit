@@ -237,12 +237,14 @@ list_1 = load_data("1DXrhmL95OLYJ6_EIpOnf4LmPb5pDvvO3", "광고목록_전처리.
 part   = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "광고참여_어뷰징.parquet")
 point  = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "광고적립_어뷰징.parquet")
 
+# 광고목록 데이터 드라이브 주소
+# https://drive.google.com/file/d/1DXrhmL95OLYJ6_EIpOnf4LmPb5pDvvO3/view?usp=sharing
+
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
 
 # 광고적립 데이터 드라이브 주소
 # https://drive.google.com/file/d/1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead/view?usp=sharing
- 
 
 
 # ----- 지표 1 -----
