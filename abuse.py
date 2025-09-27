@@ -229,14 +229,16 @@ list_1 = pd.read_parquet('광고목록_전처리.parquet')
 def load_data(file_id, output):
     url = f"https://drive.google.com/uc?id={file_id}"
     if not os.path.exists(output):
-        gdown.download(url, output, quiet=False)
+        gdown.download(url, output, quiet=False, fuzzy=True)
+        if not os.path.exists(output):
+            raise FileNotFoundError(f"❌ 다운로드 실패: {output}")
     return pd.read_parquet(output, engine="pyarrow")
 
 part  = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
 point = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
-# https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=drive_link
+# https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
 
 # 광고적립 데이터 드라이브 주소
 # https://drive.google.com/file/d/1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead/view?usp=sharing
