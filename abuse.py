@@ -200,8 +200,17 @@ st.markdown("""
 # 2번 코드 로직: 데이터 로드/계산 (그대로 유지)
 # ==============================
 
-rcParams['font.family'] = 'NanumGothic'
-rcParams['axes.unicode_minus'] = False
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+# 시스템에 설치된 나눔고딕 Regular 지정
+font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"
+nanum_font = fm.FontProperties(fname=font_path).get_name()
+print("✅ 적용할 폰트 이름:", nanum_font)
+
+mpl.rcParams['font.family'] = nanum_font
+mpl.rcParams['axes.unicode_minus'] = False
 
 # list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = pd.read_parquet("part.parquet")
