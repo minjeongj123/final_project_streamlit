@@ -207,8 +207,11 @@ rcParams['axes.unicode_minus'] = False
 # part = pd.read_parquet("part.parquet")
 # point = pd.read_parquet("point.parquet")
 
-# app.py가 있는 폴더 기준
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# BASE_DIR 설정
+try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    BASE_DIR = os.getcwd()
 
 def load_data(filename):
     file_path = os.path.join(BASE_DIR, filename)
@@ -219,17 +222,8 @@ def load_data(filename):
 
 # 데이터 로드
 list_1 = load_data("광고목록_전처리.parquet")
-# 데이터 로드
-list_1 = load_data("광고목록_전처리.parquet")
-part = pd.read_parquet(
-    os.path.join(BASE_DIR, "광고참여_전처리.parquet"),
-    engine="pyarrow"
-)
-
-point = pd.read_parquet(
-    os.path.join(BASE_DIR, "광고적립_전처리.parquet"),
-    engine="pyarrow"
-)
+part   = load_data("광고참여_전처리.parquet")
+point  = load_data("광고적립_전처리.parquet")
 
 # @st.cache_data
 # def load_data_part():
