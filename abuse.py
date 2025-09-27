@@ -234,11 +234,13 @@ def load_data(file_id, output):
             raise FileNotFoundError(f"❌ 다운로드 실패: {output}")
     return pd.read_parquet(output, engine="pyarrow")
 
-part  = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
+part  = load_data("1URmbb5E0QyDKbB75gF4KmzQnNlFXa9Wz", "part.parquet")
 point = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
+# # https://drive.google.com/file/d/1URmbb5E0QyDKbB75gF4KmzQnNlFXa9Wz/view?usp=sharing
+
 
 # 광고적립 데이터 드라이브 주소
 # https://drive.google.com/file/d/1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead/view?usp=sharing
