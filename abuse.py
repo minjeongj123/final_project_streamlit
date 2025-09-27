@@ -204,8 +204,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
-import matplotlib.font_manager as fm
-[f.name for f in fm.fontManager.ttflist if "Apple" in f.name]
+import matplotlib as mpl
+mpl.rcParams['font.family'] = 'Apple SD Gothic Neo'  # 꼭 실제 이름 그대로!
+mpl.rcParams['axes.unicode_minus'] = False
 
 # list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = pd.read_parquet("part.parquet")
