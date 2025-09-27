@@ -732,7 +732,8 @@ else:
     first_weekday = (first_day.dt.weekday + 1) % 7
     filtered["first_weekday"] = first_weekday
     filtered["week_of_month"] = ((filtered["regdate"].dt.day + filtered["first_weekday"] - 1) // 7) + 1
-    filtered["month_week"] = filtered["month"].astype(str) + "월 " + filtered["week_of_month"].astype(str) + "주차"
+    filtered["month_week"] = "Month " + filtered["month"].astype(str) + ", Week" +  filtered["week_of_month"].astype(str) 
+
 
     selected_week = week_level
     filtered_2 = filtered[filtered['month_week'] == selected_week]
