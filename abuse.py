@@ -222,24 +222,6 @@ def load_data(filename):
 
 # 데이터 로드
 list_1 = load_data("광고목록_전처리.parquet")
-part   = load_data("광고참여_전처리.parquet")
-point  = load_data("광고적립_전처리.parquet")
-
-# BASE_DIR 설정
-try:
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-except NameError:
-    BASE_DIR = os.getcwd()
-
-def load_data(filename):
-    file_path = os.path.join(BASE_DIR, filename)
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"❌ 파일을 찾을 수 없음: {file_path}")
-    print(f"✅ 불러오는 파일: {file_path}")
-    return pd.read_parquet(file_path, engine="pyarrow")
-
-# 데이터 로드
-list_1 = load_data("광고목록_전처리.parquet")
 part   = load_data("광고참여.parquet")
 point  = load_data("광고적립.parquet")
 
