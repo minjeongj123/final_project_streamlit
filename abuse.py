@@ -234,7 +234,7 @@ def load_data(file_id, output):
             raise FileNotFoundError(f"❌ 다운로드 실패: {output}")
     return pd.read_parquet(output, engine="pyarrow")
 
-part  = load_data("1URmbb5E0QyDKbB75gF4KmzQnNlFXa9Wz", "part.parquet")
+part  = load_data("1URmbb5E0QyDKbB75gF4KmzQnNlFXa9Wz", "part.csv")
 point = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
