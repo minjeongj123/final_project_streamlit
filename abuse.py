@@ -225,13 +225,13 @@ list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = load_data_part()
 # point = load_data_point()
 
-@st.cache_data
-def load_data(file_id, output):
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def load_data(file_id, filename):
     url = f"https://drive.google.com/uc?id={file_id}"
+    output = os.path.join(BASE_DIR, filename)   # 절대경로 저장
     if not os.path.exists(output):
-        gdown.download(url, output, quiet=False, fuzzy=True)
-        if not os.path.exists(output):
-            raise FileNotFoundError(f"❌ 다운로드 실패: {output}")
+        gdown.download(url, output, quiet=False)
     return pd.read_parquet(output, engine="pyarrow")
 
 part  = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
