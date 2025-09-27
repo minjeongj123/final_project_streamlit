@@ -124,7 +124,9 @@ else:
                 m1 = df_sel["CVR"].mean() * 0.5 + df_sel["margin_rate"].mean() * 0.5
                 colored_metric("균형 KPI", m1, threshold_high=(df["CVR"].mean()*0.5 + df["margin_rate"].mean()*0.5)*1.2, threshold_low=(df["CVR"].mean()*0.5 + df["margin_rate"].mean()*0.5)*0.8)
                 st.caption(f"그룹 평균: {(df['CVR'].mean()*0.5 + df['margin_rate'].mean()*0.5):.2f}")
-            # 추천 조합 (Rank 추가, mean_score 완전 제거)
+            # =============================
+            # 추천 조합 (Rank만 보여주고 인덱스 숨김)
+            # =============================
             if mode == "mda_idx":
                 group_cols = ["ads_category", "ads_type"]
             elif mode == "카테고리":
@@ -133,26 +135,23 @@ else:
                 group_cols = ["mda_idx", "ads_category"]
             top_combos = (
                 df_sel.groupby(group_cols)
-                .agg(
-                    mean_CVR=("CVR", "mean"),
-                    mean_MR=("margin_rate", "mean")
-                )
-                .reset_index()
+                .size()
+                .reset_index(name="count")
             )
-            # 정렬 후 상위 5개
             top_combos = (
-                top_combos.sort_values(["mean_CVR", "mean_MR"], ascending=False)
+                top_combos.sort_values("count", ascending=False)
                 .head(5)
                 .reset_index(drop=True)
             )
-            # Rank 컬럼 추가
+            # Rank 추가
             top_combos.insert(0, "Rank", range(1, len(top_combos) + 1))
-            # mean_score 강제 제거
-            if "mean_score" in top_combos.columns:
-                top_combos = top_combos.drop(columns=["mean_score"])
+            # count 제거
+            top_combos = top_combos.drop(columns=["count"])
             st.subheader(f"상위 {len(top_combos)}개 추천 조합")
-            st.dataframe(top_combos)
+            st.dataframe(top_combos, hide_index=True)  # :흰색_확인_표시: 인덱스 제거
+            # =============================
             # KPI 막대그래프 비교
+            # =============================
             sel_metrics = {
                 "CVR": df_sel["CVR"].mean(),
                 "Margin Rate": df_sel["margin_rate"].mean(),
@@ -175,11 +174,11 @@ else:
             st.subheader("선택된 값 vs 그룹 평균 비교 (막대그래프)")
             chart = alt.Chart(metrics_df).transform_fold(
                 ["선택된 값", "그룹 평균"],
-                as_=["구분", "값+"]
+                as_=["구분", "값"]
             ).mark_bar().encode(
                 x=alt.X("지표:N", axis=alt.Axis(title="KPI")),
                 y=alt.Y("값:Q", axis=alt.Axis(title="값")),
                 color="구분:N",
                 xOffset="구분:N"
             ).properties(width=600, height=400)
-            st.altair_chart(chart, width="stretch")
+            st.altair_chart(chart, use_container_width=True)
