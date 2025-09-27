@@ -739,7 +739,7 @@ else:
 
     left_g, right_g = st.columns(2)
 
-        with left_g:
+    with left_g:
         daily_abuse = (filtered_2.groupby(filtered_2['regdate'].dt.date)['rwd_cost']
                        .sum().reset_index())
         daily_abuse.columns = ['date', 'reward_sum']
@@ -760,9 +760,11 @@ else:
         heatmap_data = heatmap_df.groupby(['weekday','hour'])['rwd_cost'].sum().reset_index()
         total_sum = heatmap_data['rwd_cost'].sum() or 1
         heatmap_data['ratio'] = heatmap_data['rwd_cost'] / total_sum
-        pivot = heatmap_data.pivot(index='Weekday', columns='Hour', values='Fatio').reindex(index=range(7), columns=range(24), fill_value=0)
+        pivot = heatmap_data.pivot(index='weekday', columns='hour', values='ratio').reindex(
+            index=range(7), columns=range(24), fill_value=0
+        )
 
-  # 👉 히트맵 "색깔만" 2번 코드의 라벤더 팔레트로 교체
+        # 👉 히트맵 "색깔만" 2번 코드의 라벤더 팔레트로 교체
         from matplotlib.colors import LinearSegmentedColormap
         lav_cmap = LinearSegmentedColormap.from_list(
             "lavender_boost",
@@ -775,8 +777,11 @@ else:
             vmin=0, vmax=max(0.0001, float(pivot.values.max()))
         )
         ax2.set_yticks(range(7))
-        ax2.set_yticklabels(["Sunday","Monday","Turesday","Wednesday","Thursday","Friday","Saturday"], rotation=0)
-        ax2.set_title(f"{selected_risk} - {selected_week} Weekday x Hour Abuse Payout Ratio", fontsize=12)
+        ax2.set_yticklabels(
+            ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], 
+            rotation=0
+        )
+        ax2.set_title(f"{selected_risk} - {selected_week} Weekday × Hour Abuse Payout Ratio", fontsize=12)
         ax2.set_xlabel("Hour (0–23)")
         ax2.set_ylabel("Weekday")
         st.pyplot(fig2)
