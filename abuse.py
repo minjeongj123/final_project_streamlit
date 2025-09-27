@@ -6,6 +6,7 @@ import seaborn as sns
 import plotly.express as px
 from matplotlib import rcParams
 import gdown
+import os
 
 # ==== ⛽️ 드롭인 로딩 가속 블록 v2 (임포트 바로 아래에 붙이기) ====
 
@@ -204,25 +205,35 @@ rcParams['axes.unicode_minus'] = False
 
 list_1 = pd.read_parquet('광고목록_전처리.parquet')
 
-@st.cache_data
-def load_data_part():
-    file_id = "1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q"
-    url = f"https://drive.google.com/uc?id={file_id}"
-    output = "part.parquet"
-    gdown.download(url, output, quiet=False)
-    return pd.read_parquet(output, engine="pyarrow")
+# @st.cache_data
+# def load_data_part():
+#     file_id = "1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q"
+#     url = f"https://drive.google.com/uc?id={file_id}"
+#     output = "part.parquet"
+#     gdown.download(url, output, quiet=False)
+#     return pd.read_parquet(output, engine="pyarrow")
+
+# @st.cache_data
+# def load_data_point():
+#     file_id = "1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead"
+#     url = f"https://drive.google.com/uc?id={file_id}"
+#     output = "point.parquet"
+#     gdown.download(url, output, quiet=False)
+#     return pd.read_parquet(output, engine="pyarrow")
+
+# # 데이터 불러오기
+# part = load_data_part()
+# point = load_data_point()
 
 @st.cache_data
-def load_data_point():
-    file_id = "1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead"
+def load_data(file_id, output):
     url = f"https://drive.google.com/uc?id={file_id}"
-    output = "point.parquet"
-    gdown.download(url, output, quiet=False)
+    if not os.path.exists(output):
+        gdown.download(url, output, quiet=False)
     return pd.read_parquet(output, engine="pyarrow")
 
-# 데이터 불러오기
-part = load_data_part()
-point = load_data_point()
+part  = load_data("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
+point = load_data("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=drive_link
