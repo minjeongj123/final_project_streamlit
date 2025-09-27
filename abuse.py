@@ -222,8 +222,8 @@ def load_data(filename):
 
 # 데이터 로드
 list_1 = load_data("광고목록_전처리.parquet")
-part   = load_data("광고참여.parquet")
-point  = load_data("광고적립.parquet")
+part   = load_data("part.parquet")
+point  = load_data("point.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
