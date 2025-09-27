@@ -732,7 +732,7 @@ else:
     first_weekday = (first_day.dt.weekday + 1) % 7
     filtered["first_weekday"] = first_weekday
     filtered["week_of_month"] = ((filtered["regdate"].dt.day + filtered["first_weekday"] - 1) // 7) + 1
-    filtered["month_week"] = "Month " + filtered["month"].astype(str) + ", Week" +  filtered["week_of_month"].astype(str) 
+    filtered["month_week"] = filtered["month"].astype(str) + "월 " +  filtered["week_of_month"].astype(str) + "주차"
 
 
     selected_week = week_level
@@ -749,7 +749,7 @@ else:
 
         fig_line, ax1 = plt.subplots(figsize=(6,4))
         ax1.plot(daily_abuse['label'], daily_abuse['reward_sum'], marker='o')
-        ax1.set_title(f"{selected_risk} - {selected_week} Abuse Payout", fontsize=12)
+        ax1.set_title(f"Abuse Payout", fontsize=12)
         ax1.set_xlabel("Day(Weekday)"); ax1.set_ylabel("Payout"); ax1.grid(True, linestyle="--", alpha=0.7)
         plt.xticks(rotation=45, ha="right")
         st.pyplot(fig_line)
@@ -782,7 +782,7 @@ else:
             ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], 
             rotation=0
         )
-        ax2.set_title(f"{selected_risk} - {selected_week} Weekday × Hour Abuse Payout Ratio", fontsize=12)
+        ax2.set_title(f"Weekday × Hour Abuse Payout Ratio", fontsize=12)
         ax2.set_xlabel("Hour (0–23)")
         ax2.set_ylabel("Weekday")
         st.pyplot(fig2)
