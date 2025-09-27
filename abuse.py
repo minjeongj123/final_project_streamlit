@@ -204,6 +204,8 @@ rcParams['font.family'] = 'AppleGothic'
 rcParams['axes.unicode_minus'] = False
 
 list_1 = pd.read_parquet('광고목록_전처리.parquet')
+part = pd.read_parquet("part.parquet", engine="pyarrow")
+point = pd.read_parquet("point.parquet", engine="pyarrow")
 
 # @st.cache_data
 # def load_data_part():
@@ -225,28 +227,24 @@ list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = load_data_part()
 # point = load_data_point()
 
-def download_from_drive(file_id, filename):
-    if not os.path.exists(filename):
-        cmd = f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id={file_id}" -O {filename}'
-        os.system(cmd)
-    if not os.path.exists(filename):
-        raise FileNotFoundError(f"❌ 다운로드 실패: {filename}")
-    print(f"✅ {filename} 크기: {os.path.getsize(filename)/1024/1024:.2f}MB")
-    return pd.read_parquet(filename, engine="pyarrow")
+# def download_from_drive(file_id, filename):
+#     if not os.path.exists(filename):
+#         cmd = f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id={file_id}" -O {filename}'
+#         os.system(cmd)
+#     if not os.path.exists(filename):
+#         raise FileNotFoundError(f"❌ 다운로드 실패: {filename}")
+#     print(f"✅ {filename} 크기: {os.path.getsize(filename)/1024/1024:.2f}MB")
+#     return pd.read_parquet(filename, engine="pyarrow")
 
-part  = download_from_drive("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
-point = download_from_drive("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
-
+# part  = download_from_drive("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
+# point = download_from_drive("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
 
-# https://drive.google.com/file/d/1URmbb5E0QyDKbB75gF4KmzQnNlFXa9Wz/view?usp=sharing
-
 # 광고적립 데이터 드라이브 주소
 # https://drive.google.com/file/d/1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead/view?usp=sharing
  
-
 
 
 # ----- 지표 1 -----
