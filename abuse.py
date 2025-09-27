@@ -225,37 +225,23 @@ list_1 = load_data("광고목록_전처리.parquet")
 part   = load_data("광고참여_전처리.parquet")
 point  = load_data("광고적립_전처리.parquet")
 
-# @st.cache_data
-# def load_data_part():
-#     file_id = "1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q"
-#     url = f"https://drive.google.com/uc?id={file_id}"
-#     output = "part.parquet"
-#     gdown.download(url, output, quiet=False)
-#     return pd.read_parquet(output, engine="pyarrow")
+# BASE_DIR 설정
+try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    BASE_DIR = os.getcwd()
 
-# @st.cache_data
-# def load_data_point():
-#     file_id = "1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead"
-#     url = f"https://drive.google.com/uc?id={file_id}"
-#     output = "point.parquet"
-#     gdown.download(url, output, quiet=False)
-#     return pd.read_parquet(output, engine="pyarrow")
+def load_data(filename):
+    file_path = os.path.join(BASE_DIR, filename)
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"❌ 파일을 찾을 수 없음: {file_path}")
+    print(f"✅ 불러오는 파일: {file_path}")
+    return pd.read_parquet(file_path, engine="pyarrow")
 
-# # 데이터 불러오기
-# part = load_data_part()
-# point = load_data_point()
-
-# def download_from_drive(file_id, filename):
-#     if not os.path.exists(filename):
-#         cmd = f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id={file_id}" -O {filename}'
-#         os.system(cmd)
-#     if not os.path.exists(filename):
-#         raise FileNotFoundError(f"❌ 다운로드 실패: {filename}")
-#     print(f"✅ {filename} 크기: {os.path.getsize(filename)/1024/1024:.2f}MB")
-#     return pd.read_parquet(filename, engine="pyarrow")
-
-# part  = download_from_drive("1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q", "part.parquet")
-# point = download_from_drive("1-sTUaLKCsqT0fPTXFwbp7yxyLnVjfead", "point.parquet")
+# 데이터 로드
+list_1 = load_data("광고목록_전처리.parquet")
+part   = load_data("광고참여.parquet")
+point  = load_data("광고적립.parquet")
 
 # 광고참여 데이터 드라이브 주소
 # https://drive.google.com/file/d/1HsR5qstEd9A04yFu1lhz570DVQ3TDN7Q/view?usp=sharing
