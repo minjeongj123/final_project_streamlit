@@ -8,6 +8,14 @@ from matplotlib import rcParams
 import gdown
 import os
 from pathlib import Path
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+import matplotlib as mpl
+mpl.rcParams['font.family'] = 'Apple SD Gothic Neo'  # 꼭 실제 이름 그대로!
+mpl.rcParams['axes.unicode_minus'] = False
+
 # ==== ⛽️ 드롭인 로딩 가속 블록 v2 (임포트 바로 아래에 붙이기) ====
 
 # ==============================
@@ -199,14 +207,6 @@ st.markdown("""
 # ==============================
 # 2번 코드 로직: 데이터 로드/계산 (그대로 유지)
 # ==============================
-
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-
-import matplotlib as mpl
-mpl.rcParams['font.family'] = 'Apple SD Gothic Neo'  # 꼭 실제 이름 그대로!
-mpl.rcParams['axes.unicode_minus'] = False
 
 # list_1 = pd.read_parquet('광고목록_전처리.parquet')
 # part = pd.read_parquet("part.parquet")
